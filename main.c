@@ -6,18 +6,20 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/03 09:54:15 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/03 13:53:06 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/03 17:31:44 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/ls.h"
 
 int		printdir(char *path);
+int		can_open(char *path);
 
 int		main(int argc, char **argv)
 {
 	(void)argc;
 
+	//printf("%d\n", can_open("./libft/obj/"));
 	printdir(argv[1]);
 
 
@@ -86,23 +88,26 @@ int		printdir(char *path)
 	t_list			*list = NULL;
 	t_list			*beg;
 
+	path = ft_strcat(path, "/");
 	if (!(dir = opendir(path)))
 		return (errno);
+	if (strcmp("./", path) != 0)
+		printf("%s:\n", path);
 	while ((ret = readdir(dir)))
 	{
 		if (ret->d_name[0] != '.')
 		{
-			if (can_open(ret->d_name))
+			if (can_open(ft_strjoin(path, ret->d_name)))
 				list = ft_list_push_back(ret->d_name, list);
 			printf("%s\n", ret->d_name);
 		}
 	}
-	ft_putchar('\n');
 	closedir(dir);
 	beg = list;
 	while (list)
 	{
-		printdir(list->content);
+		printf("\n");
+		printdir(ft_strjoin(path, list->content));
 		list = list->next;
 	}
 	ft_lstdel(&beg, del);
