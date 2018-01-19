@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ls.h                                               :+:      :+:    :+:   */
+/*   ft_strtoupper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/03 09:59:10 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/03 13:16:19 by abouvero         ###   ########.fr       */
+/*   Created: 2018/01/05 18:58:31 by abouvero          #+#    #+#             */
+/*   Updated: 2018/01/12 15:14:26 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LS_H
-# define LS_H
+#include "../includes/libft.h"
 
-#include <dirent.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <errno.h>
+char	*ft_strtoupper(char *str)
+{
+	int		i;
 
-#include "../libft/includes/libft.h"
-
-#include <stdio.h>
-#include <string.h>
-
-#endif
+	i = -1;
+	while (str[++i])
+		str[i] = ft_toupper(str[i]);
+	return (str);
+}

@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdel.c                                        :+:      :+:    :+:   */
+/*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/08 13:50:48 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/09 11:52:16 by abouvero         ###   ########.fr       */
+/*   Created: 2018/01/19 14:39:55 by abouvero          #+#    #+#             */
+/*   Updated: 2018/01/19 14:42:32 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#ifndef FT_LS_H
+# define FT_LS_H
 
-void	ft_strdel(char **as)
-{
-	if (as)
-	{
-		free(*as);
-		*as = NULL;
-	}
-}
+#include "libft/includes/libft.h"
+#include <dirent.h>
+#include <sys/stat.h>
+
+#endif

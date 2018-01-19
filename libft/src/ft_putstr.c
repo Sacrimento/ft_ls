@@ -6,7 +6,7 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 13:02:34 by abouvero          #+#    #+#             */
-/*   Updated: 2017/12/16 17:10:20 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/12 14:53:06 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,5 @@
 void	ft_putstr(char const *s)
 {
 	if (s)
-	{
-		while (*s)
-			write(1, s++, 1);
-	}
+		write(1, s, ft_strlen(s));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouvero <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 11:46:51 by abouvero          #+#    #+#             */
-/*   Updated: 2017/12/16 17:40:39 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/16 17:07:15 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@
 # include <string.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <wchar.h>
 
 # include "get_next_line.h"
+# include "ft_printf.h"
 
 typedef struct	s_list
 {
@@ -48,6 +50,8 @@ char			*ft_strnstr(const char *hay, const char *nee, size_t len);
 int				ft_strcmp(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 int				ft_atoi(const char *str);
+char			*ft_max_itoa_base(intmax_t value, int base);
+char			*ft_umax_itoa_base(uintmax_t value, int base);
 
 int				ft_isalpha(int c);
 int				ft_isdigit(int c);
@@ -56,6 +60,7 @@ int				ft_isascii(int c);
 int				ft_isprint(int c);
 int				ft_toupper(int c);
 int				ft_tolower(int c);
+char			*ft_strtoupper(char *str);
 
 void			*ft_memalloc(size_t size);
 void			ft_memdel(void **ap);
@@ -82,6 +87,7 @@ void			ft_putchar_fd(char c, int fd);
 void			ft_putstr_fd(char const *s, int fd);
 void			ft_putendl_fd(char const *s, int fd);
 void			ft_putnbr_fd(int n, int fd);
+int				ft_putwchar(wint_t c);
 
 t_list			*ft_lstnew(void const *content, size_t content_size);
 void			ft_lstdelone(t_list **alst, void (*del)(void *, size_t));
