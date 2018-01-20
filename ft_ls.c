@@ -6,7 +6,7 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/19 14:49:23 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/19 18:51:21 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/20 17:43:09 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,20 @@ int		bas_ls(char	 *path, t_opt *opt)
 {
 	DIR			*dir;
 	t_dirent	*ret;
+	t_stat		buff;
 
 	if (!(dir = opendir(path)))
 		return (2);
 	while ((ret = readdir(dir)))
 		if (*ret->d_name != '.' && !opt->a)
-			ft_printf("%-*s", 16, ret->d_name);
+		{
+			ft_printf("%-*s\n", 16, ret->d_name);
+			stat(ret->d_name, &buff);
+			ft_printf("Rights : %o | size : %u | user : %s | group : %s | hard-links : %u | blksize : %d | time : %s\n",
+					buff.st_mode, buff.st_size, getpwuid(buff.st_uid)->pw_name,
+					getgrgid(buff.st_gid)->gr_name, buff.st_nlink, buff.st_blocks,
+					ft_strsub(ctime(&buff.st_mtime), 4 , 12));
+		}
 	printf("\n");
 	return (0);
 }
@@ -65,8 +73,6 @@ void 	init_opt(t_opt *opt, char *s)
 int		ft_ls(char *s, t_opt *opt)
 {
 	ft_printf("[%d%d%d%d%d%d] [%s]\n", opt->l, opt->r, opt->rr, opt->gg, opt->a, opt->t, s);
-	// if (opt->rr)
-	// 	rec_ls(s);
 	bas_ls(s, opt);
 	return (1);
 }
@@ -79,6 +85,7 @@ int		main(int argc, char **argv)
 	i = 0;
 	opt_to_zero(&opt);
 	if (argc == 1 || (argc == 2 && argv[1][0] == '-'))
+
 		return (ft_ls(".", &opt));
 	if (*argv[1] == '-')
 		init_opt(&opt, ++argv[++i]);
