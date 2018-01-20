@@ -6,11 +6,60 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/19 14:49:23 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/20 17:43:09 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/20 18:56:43 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+void 	get_type(char *type)
+{
+	if (!ft_strcmp("10", type))
+		write(1, "p", 1);
+	else if (!ft_strcmp("20", type))
+		write(1, "c", 1);
+	else if (!ft_strcmp("40", type))
+		write(1, "d", 1);
+	else if (!ft_strcmp("60", type))
+		write(1, "b", 1);
+	else if (!ft_strcmp("100", type))
+		write(1, "-", 1);
+	else if (!ft_strcmp("120", type))
+		write(1, "l", 1);
+	else if (!ft_strcmp("140", type))
+		write(1, "s", 1);
+	ft_strdel(&type);
+}
+
+void 	write_rigths(char *oct)
+{
+	int		i;
+	char	num;
+
+	i = 3;
+	get_type(ft_strsub(oct, 0, ft_strlen(oct) - 3));
+	while (i != 0)
+	{
+		num = oct[ft_strlen(oct) - i--];
+		if (num == '0')
+			write(1, "---", 3);
+		else if (num == '1')
+			write(1, "--x", 3);
+		else if (num == '2')
+			write(1, "-w-", 3);
+		else if (num == '3')
+			write(1, "-wx", 3);
+		else if (num == '4')
+			write(1, "r--", 3);
+		else if (num == '5')
+			write(1, "r-x", 3);
+		else if (num == '6')
+			write(1, "rw-", 3);
+		else if (num == '7')
+			write(1, "rwx", 3);
+	}
+	ft_strdel(&oct);
+}
 
 int		bas_ls(char	 *path, t_opt *opt)
 {
@@ -23,12 +72,10 @@ int		bas_ls(char	 *path, t_opt *opt)
 	while ((ret = readdir(dir)))
 		if (*ret->d_name != '.' && !opt->a)
 		{
-			ft_printf("%-*s\n", 16, ret->d_name);
 			stat(ret->d_name, &buff);
-			ft_printf("Rights : %o | size : %u | user : %s | group : %s | hard-links : %u | blksize : %d | time : %s\n",
-					buff.st_mode, buff.st_size, getpwuid(buff.st_uid)->pw_name,
-					getgrgid(buff.st_gid)->gr_name, buff.st_nlink, buff.st_blocks,
-					ft_strsub(ctime(&buff.st_mtime), 4 , 12));
+			write_rigths(ft_umax_itoa_base(buff.st_mode, 8));
+			ft_printf("  %u %s  %s %*u %s %s\n", buff.st_nlink, getpwuid(buff.st_uid)->pw_name,
+			getgrgid(buff.st_gid)->gr_name, 6, buff.st_size, ft_strsub(ctime(&buff.st_mtime), 4, 12), ret->d_name);
 		}
 	printf("\n");
 	return (0);
