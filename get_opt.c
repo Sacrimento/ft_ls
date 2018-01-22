@@ -6,11 +6,10 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 13:00:48 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/22 13:23:07 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/22 15:53:18 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "ft_ls.h"
 
 void 	opt_err(char c)
@@ -18,6 +17,30 @@ void 	opt_err(char c)
 	ft_printf("./ft_ls : illegal option -- %c\n", c);
 	ft_printf("usage : ./ft_ls [-GRalrt] [file ...]\n");
 	exit(1);
+}
+
+char	get_type(char *oct)
+{
+	char	*type;
+	char	ret;
+
+	type = ft_strsub(oct, 0, ft_strlen(oct) - 3);
+	if (!ft_strcmp("10", type))
+		ret = 'p';
+	else if (!ft_strcmp("20", type))
+		ret = 'c';
+	else if (!ft_strcmp("40", type))
+		ret = 'd';
+	else if (!ft_strcmp("60", type))
+		ret = 'b';
+	else if (!ft_strcmp("100", type))
+		ret= '-';
+	else if (!ft_strcmp("120", type))
+		ret = 'l';
+	else if (!ft_strcmp("140", type))
+		ret = 's';
+	ft_strdel(&type);
+	return (ret);
 }
 
 int		get_opt(char *s)
