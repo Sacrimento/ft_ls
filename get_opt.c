@@ -6,7 +6,7 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 13:00:48 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/22 15:53:18 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/22 18:50:35 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char	get_type(char *oct)
 	else if (!ft_strcmp("140", type))
 		ret = 's';
 	ft_strdel(&type);
+	ft_strdel(&oct);
 	return (ret);
 }
 
