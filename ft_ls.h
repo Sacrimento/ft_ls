@@ -6,7 +6,7 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/19 14:39:55 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/20 15:45:22 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/22 13:23:15 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,13 @@
 #include <grp.h>
 #include <time.h>
 
-typedef struct			s_opt
-{
-	int		l;
-	int		r;
-	int		rr;
-	int		gg;
-	int		a;
-	int		t;
-}						t_opt;
+# define REC_OPT	1
+# define LON_OPT	2
+# define ALL_OPT	4
+# define REV_OPT	8
+# define TIM_OPT	16
+# define COL_OPT	32
+
 typedef struct dirent	t_dirent;
 typedef struct stat		t_stat;
 
