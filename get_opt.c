@@ -6,7 +6,7 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 13:00:48 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/22 18:50:35 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/22 20:20:28 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ char	get_type(char *oct)
 	char	ret;
 
 	type = ft_strsub(oct, 0, ft_strlen(oct) - 3);
+	//type = ft_strlen(oct) > 2 ? ft_strsub(oct, 0, ft_strlen(oct) - 3) : ft_strdup("100"); // ??????
 	if (!ft_strcmp("10", type))
 		ret = 'p';
 	else if (!ft_strcmp("20", type))

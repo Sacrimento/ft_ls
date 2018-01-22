@@ -6,7 +6,7 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 13:38:12 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/22 19:12:07 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/22 20:38:37 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void 	free_node(t_file *file)
 {
 	ft_strdel(&file->path);
 	ft_strdel(&file->name);
+	ft_strdel(&file->full_name);
 	ft_memdel((void**)&file);
 }
 
@@ -61,14 +62,15 @@ t_file	*fill_dir_list(t_file *file, char *path, char *name)
 	beg = file;
 	if (!(new = (t_file*)malloc(sizeof(t_file))))
 		exit(1);
-	save = ft_strjoin(path, name);
 	new->path = ft_strdup(path);
-	new->name = ft_strdup(save);
-	stat(new->name, &new->stat);
+	new->name = ft_strdup(name);
+	save = ft_strjoin(path, name);
+	new->full_name = ft_strdup(save);
+	stat(new->full_name, &new->stat);
 	new->type = get_type(ft_umax_itoa_base(new->stat.st_mode, 8));
 	new->next = NULL;
 	ft_strdel(&save);
-	ft_memdel((void**)&path);
+	ft_strdel(&path);
 	if (!file)
 		return (new);
 	while (file->next)
@@ -82,6 +84,7 @@ int		ls(char *path, int opt)
 	DIR			*dir;
 	t_dirent	*ret;
 	t_file		*file;
+	t_file		*beg;
 
 	file = NULL;
 	if (!(dir = opendir(path)))
@@ -89,13 +92,14 @@ int		ls(char *path, int opt)
 	while ((ret = readdir(dir)))
 		file = fill_dir_list(file, ft_strjoin(path, "/"), ret->d_name);
 	file = (opt & ALL_OPT) ? file : list_del_spe(file);
+	beg = file;
 	display(file, opt);
 	while (file && (opt & REC_OPT))
 	{
-		file->type == 'd' ? ls(file->name, opt) : 0;
+		file->type == 'd' ? ls(file->full_name, opt) : 0;
 		file = file->next;
 	}
-	del_list(file);
+	del_list(beg);
 	closedir(dir);
 	return (0);
 }

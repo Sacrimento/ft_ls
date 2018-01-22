@@ -6,13 +6,11 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 13:15:47 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/15 13:13:20 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/22 19:49:22 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
-
-#include <stdio.h>
 
 static char		*zero_value(void)
 {

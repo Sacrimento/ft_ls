@@ -6,7 +6,7 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/19 14:39:55 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/22 16:44:39 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/22 20:34:55 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef	struct			s_file
 {
 	char			*path;
 	char			*name;
+	char			*full_name;
 	char			type;
 	t_stat			stat;
 	struct s_file	*next;
