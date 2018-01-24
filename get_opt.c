@@ -6,7 +6,7 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 13:00:48 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/22 20:20:28 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/24 13:38:44 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 void 	opt_err(char c)
 {
-	ft_printf("./ft_ls : illegal option -- %c\n", c);
-	ft_printf("usage : ./ft_ls [-GRalrt] [file ...]\n");
+	ft_putstr_fd("./ft_ls : illegal option -- ", 2);
+	ft_putchar_fd(c, 2);
+	ft_putstr_fd("\nusage : ./ft_ls [-GRalrt] [file ...]\n", 2);
 	exit(1);
 }
 

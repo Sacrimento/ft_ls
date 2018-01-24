@@ -6,7 +6,7 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/19 14:39:55 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/22 20:34:55 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/24 12:42:57 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <pwd.h>
 # include <grp.h>
 # include <time.h>
+# include <errno.h>
 
 # define REC_OPT	1
 # define LON_OPT	2

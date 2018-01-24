@@ -6,17 +6,18 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 13:38:12 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/22 20:38:37 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/24 13:59:41 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int		open_err(char *path)
+void 	open_err(char *path)
 {
-	ft_printf("./ft_ls : [%s] : no such file or directory\n", path);
-	exit(1);
-	return (0);
+	ft_putstr_fd("./ft_ls: ", 2);
+	ft_putstr_fd(path, 2);
+	ft_putstr_fd(": ", 2);
+	perror("");
 }
 
 void 	free_node(t_file *file)
@@ -64,10 +65,12 @@ t_file	*fill_dir_list(t_file *file, char *path, char *name)
 		exit(1);
 	new->path = ft_strdup(path);
 	new->name = ft_strdup(name);
-	save = ft_strjoin(path, name);
+	save = ft_strjoin(new->path, new->name);
 	new->full_name = ft_strdup(save);
-	stat(new->full_name, &new->stat);
-	new->type = get_type(ft_umax_itoa_base(new->stat.st_mode, 8));
+	if (stat(new->full_name, &new->stat) == -1)
+		open_err(new->full_name);
+	else
+		new->type = get_type(ft_umax_itoa_base(new->stat.st_mode, 8));
 	new->next = NULL;
 	ft_strdel(&save);
 	ft_strdel(&path);
@@ -88,19 +91,20 @@ int		ls(char *path, int opt)
 
 	file = NULL;
 	if (!(dir = opendir(path)))
-		return (open_err(path));
-	while ((ret = readdir(dir)))
-		file = fill_dir_list(file, ft_strjoin(path, "/"), ret->d_name);
-	file = (opt & ALL_OPT) ? file : list_del_spe(file);
+		open_err(*path == '.' ? &path[2] : path);
+	while (dir && (ret = readdir(dir)))
+		file = (*ret->d_name == '.' && !(opt & ALL_OPT)) ?
+				file : fill_dir_list(file, ft_strjoin(path, "/"), ret->d_name);
 	beg = file;
-	display(file, opt);
+	dir ? display(file, opt) : 0;
 	while (file && (opt & REC_OPT))
 	{
-		file->type == 'd' ? ls(file->full_name, opt) : 0;
+		(file->type == 'd' && (ft_strcmp(file->name, ".") &&
+				ft_strcmp(file->name, ".."))) ? ls(file->full_name, opt) : 0;
 		file = file->next;
 	}
-	del_list(beg);
-	closedir(dir);
+	dir ? del_list(beg) : 0;
+	dir ? closedir(dir) : 0;
 	return (0);
 }
 
