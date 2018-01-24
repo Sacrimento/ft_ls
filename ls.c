@@ -6,7 +6,7 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 13:38:12 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/24 13:59:41 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/24 17:14:14 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,13 @@ t_file	*fill_dir_list(t_file *file, char *path, char *name)
 	new->next = NULL;
 	ft_strdel(&save);
 	ft_strdel(&path);
+	new->prev = NULL;
 	if (!file)
 		return (new);
 	while (file->next)
 		file = file->next;
 	file->next = new;
+	new->prev = file;
 	return (beg);
 }
 
@@ -95,7 +97,7 @@ int		ls(char *path, int opt)
 	while (dir && (ret = readdir(dir)))
 		file = (*ret->d_name == '.' && !(opt & ALL_OPT)) ?
 				file : fill_dir_list(file, ft_strjoin(path, "/"), ret->d_name);
-	beg = file;
+	beg = sort_list(file, opt);
 	dir ? display(file, opt) : 0;
 	while (file && (opt & REC_OPT))
 	{
@@ -110,6 +112,6 @@ int		ls(char *path, int opt)
 
 int		main(int argc, char **argv)
 {
-	ls(argv[1], 1);
+	ls(argv[1], 0);
 	return (0);
 }

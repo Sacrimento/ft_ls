@@ -6,7 +6,7 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/19 14:39:55 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/24 12:42:57 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/24 17:10:01 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,12 @@ typedef	struct			s_file
 	char			type;
 	t_stat			stat;
 	struct s_file	*next;
+	struct s_file	*prev;
 }						t_file;
 
 char	get_type(char *oct);
 int		get_opt(char *s);
 void 	display(t_file *file, int opt);
+t_file	*sort_list(t_file *f, int opt);
 
 #endif
