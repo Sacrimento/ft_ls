@@ -6,7 +6,7 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 13:38:12 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/24 17:14:14 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/26 13:38:37 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_file	*list_del_spe(t_file *file)
 	return (file);
 }
 
-t_file	*fill_dir_list(t_file *file, char *path, char *name)
+t_file	*fill_dir_list(t_file *file, char *path, char *name, int opt)
 {
 	t_file	*new;
 	t_file	*beg;
@@ -74,14 +74,7 @@ t_file	*fill_dir_list(t_file *file, char *path, char *name)
 	new->next = NULL;
 	ft_strdel(&save);
 	ft_strdel(&path);
-	new->prev = NULL;
-	if (!file)
-		return (new);
-	while (file->next)
-		file = file->next;
-	file->next = new;
-	new->prev = file;
-	return (beg);
+	return (opt & TIM_OPT ? sort_time(new, file) : sort_ascii(new, file));
 }
 
 int		ls(char *path, int opt)
@@ -96,8 +89,9 @@ int		ls(char *path, int opt)
 		open_err(*path == '.' ? &path[2] : path);
 	while (dir && (ret = readdir(dir)))
 		file = (*ret->d_name == '.' && !(opt & ALL_OPT)) ?
-				file : fill_dir_list(file, ft_strjoin(path, "/"), ret->d_name);
-	beg = sort_list(file, opt);
+			file : fill_dir_list(file, ft_strjoin(path, "/"), ret->d_name, opt);
+	// beg = sort_list(file, opt);
+	beg = file;
 	dir ? display(file, opt) : 0;
 	while (file && (opt & REC_OPT))
 	{
