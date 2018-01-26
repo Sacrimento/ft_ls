@@ -6,7 +6,7 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 13:38:12 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/26 16:32:08 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/26 16:43:47 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int		ls(char *path, int opt)
 			file : fill_dir_list(file, ft_strjoin(path, "/"), ret->d_name, opt);
 	opt & REV_OPT ? rev_list(&file) : 0;
 	beg = file;
-	dir ? display(file, opt) : 0;
+	opt & LON_OPT ? long_display(file) : display(file);
 	while (file && (opt & REC_OPT))
 	{
 		(file->type == 'd' && (ft_strcmp(file->name, ".") &&

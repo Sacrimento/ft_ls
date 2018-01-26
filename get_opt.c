@@ -6,7 +6,7 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 13:00:48 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/24 13:38:44 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/26 17:06:16 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,60 @@ void 	opt_err(char c)
 	exit(1);
 }
 
+int		get_total(t_file *f)
+{
+	int		i;
+
+	i = 0;
+	while (f)
+	{
+		i += f->stat.st_blocks;
+		f = f->next;
+	}
+	return (i);
+}
+
+char	*get_rigths(char *oct)
+{
+	int		i;
+	int		j;
+	char	num;
+	char	*ret;
+
+	i = 3;
+	j = 0;
+	ret = ft_strnew(9);
+	while (i != 0)
+	{
+		num = oct[ft_strlen(oct) - i--];
+		if (num == '0')
+			ft_strcpy(&ret[j * 3], "---");
+		else if (num == '1')
+			ft_strcpy(&ret[j * 3], "--x");
+		else if (num == '2')
+			ft_strcpy(&ret[j * 3], "-w-");
+		else if (num == '3')
+			ft_strcpy(&ret[j * 3], "-wx");
+		else if (num == '4')
+			ft_strcpy(&ret[j * 3], "r--");
+		else if (num == '5')
+			ft_strcpy(&ret[j * 3], "r-x");
+		else if (num == '6')
+			ft_strcpy(&ret[j * 3], "rw-");
+		else if (num == '7')
+			ft_strcpy(&ret[j * 3], "rwx");
+		j++;
+	}
+	ft_strdel(&oct);
+	return (ret);
+}
+
 char	get_type(char *oct)
 {
 	char	*type;
 	char	ret;
 
 	type = ft_strsub(oct, 0, ft_strlen(oct) - 3);
-	//type = ft_strlen(oct) > 2 ? ft_strsub(oct, 0, ft_strlen(oct) - 3) : ft_strdup("100"); // ??????
 	if (!ft_strcmp("10", type))
 		ret = 'p';
 	else if (!ft_strcmp("20", type))
