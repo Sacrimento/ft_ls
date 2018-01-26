@@ -6,7 +6,7 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/19 14:39:55 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/26 12:46:33 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/26 14:32:33 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,8 @@ int		get_opt(char *s);
 void 	display(t_file *file, int opt);
 t_file	*sort_time(t_file *new, t_file *file);
 t_file	*sort_ascii(t_file *new, t_file *file);
+t_file	*fill_dir_list(t_file *file, char *path, char *name, int opt);
+void 	del_list(t_file *file);
+void 	open_err(char *path);
 
 #endif

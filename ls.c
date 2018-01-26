@@ -6,7 +6,7 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 13:38:12 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/26 13:38:37 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/26 16:32:08 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,61 +20,21 @@ void 	open_err(char *path)
 	perror("");
 }
 
-void 	free_node(t_file *file)
+void 	rev_list(t_file **f)
 {
-	ft_strdel(&file->path);
-	ft_strdel(&file->name);
-	ft_strdel(&file->full_name);
-	ft_memdel((void**)&file);
-}
+	t_file	*rest;
+	t_file	*first;
 
-void 	del_list(t_file *file)
-{
-	if (!file)
+	if (*f == NULL)
 		return ;
-	if (file->next)
-		del_list(file->next);
-	free_node(file);
-}
-
-t_file	*list_del_spe(t_file *file)
-{
-	t_file	*del;
-	int		i;
-
-	i = -1;
-	if (!file)
-		return (NULL);
-	while (++i < 2)
-	{
-		del = file;
-		file = file->next;
-		free_node(del);
-	}
-	return (file);
-}
-
-t_file	*fill_dir_list(t_file *file, char *path, char *name, int opt)
-{
-	t_file	*new;
-	t_file	*beg;
-	char	*save;
-
-	beg = file;
-	if (!(new = (t_file*)malloc(sizeof(t_file))))
-		exit(1);
-	new->path = ft_strdup(path);
-	new->name = ft_strdup(name);
-	save = ft_strjoin(new->path, new->name);
-	new->full_name = ft_strdup(save);
-	if (stat(new->full_name, &new->stat) == -1)
-		open_err(new->full_name);
-	else
-		new->type = get_type(ft_umax_itoa_base(new->stat.st_mode, 8));
-	new->next = NULL;
-	ft_strdel(&save);
-	ft_strdel(&path);
-	return (opt & TIM_OPT ? sort_time(new, file) : sort_ascii(new, file));
+	first = *f;
+	rest = first->next;
+	if (rest == NULL)
+		return ;
+	rev_list(&rest);
+	first->next->next = first;
+	first->next = NULL;
+	*f = rest;
 }
 
 int		ls(char *path, int opt)
@@ -86,11 +46,11 @@ int		ls(char *path, int opt)
 
 	file = NULL;
 	if (!(dir = opendir(path)))
-		open_err(*path == '.' ? &path[2] : path);
+		open_err(path);
 	while (dir && (ret = readdir(dir)))
 		file = (*ret->d_name == '.' && !(opt & ALL_OPT)) ?
 			file : fill_dir_list(file, ft_strjoin(path, "/"), ret->d_name, opt);
-	// beg = sort_list(file, opt);
+	opt & REV_OPT ? rev_list(&file) : 0;
 	beg = file;
 	dir ? display(file, opt) : 0;
 	while (file && (opt & REC_OPT))
@@ -106,6 +66,6 @@ int		ls(char *path, int opt)
 
 int		main(int argc, char **argv)
 {
-	ls(argv[1], 0);
+	ls(argv[1], ft_atoi(argv[2]));
 	return (0);
 }
