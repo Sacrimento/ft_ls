@@ -6,7 +6,7 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 13:38:12 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/26 16:43:47 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/27 12:45:40 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void 	rev_list(t_file **f)
 	*f = rest;
 }
 
-int		ls(char *path, int opt)
+int		ls(char *path, int opt, int first)
 {
 	DIR			*dir;
 	t_dirent	*ret;
@@ -50,22 +50,35 @@ int		ls(char *path, int opt)
 	while (dir && (ret = readdir(dir)))
 		file = (*ret->d_name == '.' && !(opt & ALL_OPT)) ?
 			file : fill_dir_list(file, ft_strjoin(path, "/"), ret->d_name, opt);
+	dir ? closedir(dir) : 0;
 	opt & REV_OPT ? rev_list(&file) : 0;
 	beg = file;
-	opt & LON_OPT ? long_display(file) : display(file);
+	opt & LON_OPT ? long_display(file, first) : display(file, first);
 	while (file && (opt & REC_OPT))
 	{
 		(file->type == 'd' && (ft_strcmp(file->name, ".") &&
-				ft_strcmp(file->name, ".."))) ? ls(file->full_name, opt) : 0;
+				ft_strcmp(file->name, ".."))) ? ls(file->full_name, opt, 0) : 0;
+		file->next ? ft_printf("\n") : 0;
 		file = file->next;
 	}
 	dir ? del_list(beg) : 0;
-	dir ? closedir(dir) : 0;
 	return (0);
 }
 
 int		main(int argc, char **argv)
 {
-	ls(argv[1], ft_atoi(argv[2]));
+	int		i;
+	int		opt;
+
+	if (argc == 1 || (argc == 2 && *argv[1] == '-'))
+		return (ls(".", get_opt(argv[1] + 1), 1));
+	opt = *argv[1] == '-' ? get_opt(argv[1] + 1) : 0;
+	i = *argv[1] == '-' ? 1 : 0;
+	//argv = sort_type(argv)
+	while (++i < argc)
+	{
+		ls(argv[i], opt, 0);
+		i + 1 == argc ? 0 : ft_printf("\n");
+	}
 	return (0);
 }

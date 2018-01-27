@@ -6,7 +6,7 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/19 14:39:55 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/26 17:06:27 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/27 12:15:37 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ typedef	struct			s_file
 
 char	get_type(char *oct);
 int		get_opt(char *s);
-void 	display(t_file *file);
-void 	long_display(t_file *f);
+void 	display(t_file *file, int first);
+void 	long_display(t_file *f, int first);
 t_file	*sort_time(t_file *new, t_file *file);
 t_file	*sort_ascii(t_file *new, t_file *file);
 t_file	*fill_dir_list(t_file *file, char *path, char *name, int opt);

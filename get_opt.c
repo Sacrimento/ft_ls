@@ -6,7 +6,7 @@
 /*   By: abouvero <abouvero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 13:00:48 by abouvero          #+#    #+#             */
-/*   Updated: 2018/01/26 17:06:16 by abouvero         ###   ########.fr       */
+/*   Updated: 2018/01/27 13:05:56 by abouvero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,26 +42,27 @@ char	*get_rigths(char *oct)
 
 	i = 3;
 	j = 0;
-	ret = ft_strnew(9);
+	ret = ft_strnew(10);
+	ret[0] = get_type(ft_strdup(oct));
 	while (i != 0)
 	{
 		num = oct[ft_strlen(oct) - i--];
 		if (num == '0')
-			ft_strcpy(&ret[j * 3], "---");
+			ft_strcpy(&ret[j * 3 + 1], "---");
 		else if (num == '1')
-			ft_strcpy(&ret[j * 3], "--x");
+			ft_strcpy(&ret[j * 3 + 1], "--x");
 		else if (num == '2')
-			ft_strcpy(&ret[j * 3], "-w-");
+			ft_strcpy(&ret[j * 3 + 1], "-w-");
 		else if (num == '3')
-			ft_strcpy(&ret[j * 3], "-wx");
+			ft_strcpy(&ret[j * 3 + 1], "-wx");
 		else if (num == '4')
-			ft_strcpy(&ret[j * 3], "r--");
+			ft_strcpy(&ret[j * 3 + 1], "r--");
 		else if (num == '5')
-			ft_strcpy(&ret[j * 3], "r-x");
+			ft_strcpy(&ret[j * 3 + 1], "r-x");
 		else if (num == '6')
-			ft_strcpy(&ret[j * 3], "rw-");
+			ft_strcpy(&ret[j * 3 + 1], "rw-");
 		else if (num == '7')
-			ft_strcpy(&ret[j * 3], "rwx");
+			ft_strcpy(&ret[j * 3 + 1], "rwx");
 		j++;
 	}
 	ft_strdel(&oct);
